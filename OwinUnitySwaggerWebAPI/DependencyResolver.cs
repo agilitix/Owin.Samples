@@ -9,15 +9,15 @@ namespace OwinUnitySwaggerWebAPI
     /// <summary>
     /// Services resolver based on Unity underneath.
     /// </summary>
-    public class DependencyResolver : IDependencyResolver
+    public class DependencyResolverxx : IDependencyResolver
     {
         private readonly IUnityContainer _container;
-        private readonly DependencyScope _sharedScope;
+        private readonly DependencyScopexx _sharedScope;
 
         /// <summary>
         /// Construct with external container.
         /// </summary>
-        public DependencyResolver(IUnityContainer container)
+        public DependencyResolverxx(IUnityContainer container)
         {
             if (container == null)
             {
@@ -25,7 +25,7 @@ namespace OwinUnitySwaggerWebAPI
             }
 
             _container = container;
-            _sharedScope = new DependencyScope(container);
+            _sharedScope = new DependencyScopexx(container);
         }
 
         /// <summary>
@@ -79,11 +79,11 @@ namespace OwinUnitySwaggerWebAPI
     /// <summary>
     /// Scoped resolver.
     /// </summary>
-    internal class DependencyScope : IDependencyScope
+    internal class DependencyScopexx : IDependencyScope
     {
         private readonly IUnityContainer _unity;
 
-        public DependencyScope(IUnityContainer unity)
+        public DependencyScopexx(IUnityContainer unity)
         {
             _unity = unity;
         }

@@ -1,12 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using System.Web.Http.Controllers;
+using System.Web.Http.Dependencies;
 using System.Web.Http.Dispatcher;
 using System.Web.Http.Filters;
 using Microsoft.Owin;
 using Owin;
 using Swashbuckle.Application;
 using Unity;
+using Unity.AspNet.WebApi;
 
 [assembly: OwinStartup(typeof(OwinUnitySwaggerWebAPI.Startup))]
 
@@ -30,33 +33,35 @@ namespace OwinUnitySwaggerWebAPI
             UnityProvider unityProvider = new UnityProvider("unity.startup.config");
             _container = unityProvider.Unity;
 
-            RegisterAssembliesResolver(config);
+            RegisterDependencyResolver(config);
             RegisterFiltersProvider(config);
 
-            //config.Routes.MapHttpRoute(name: "DefaultApi",
-            //                           routeTemplate: "api/{controller}/{id}",
-            //                           defaults: new
-            //                                     {
-            //                                         id = RouteParameter.Optional
-            //                                     });
+            config.Services.Replace(typeof(IHttpControllerTypeResolver), new ControllerTypeResolver(_container));
+
+            config.Routes.MapHttpRoute(name: "DefaultApi",
+                                       routeTemplate: "api/{controller}/{id}",
+                                       defaults: new
+                                       {
+                                           id = RouteParameter.Optional
+                                       });
 
             // Routes are decorated in classes with attributes.
-            config.MapHttpAttributeRoutes();
-
-            app.UseWebApi(config);
+            //config.MapHttpAttributeRoutes();
 
             config.EnableSwagger(c =>
                                  {
                                      c.SingleApiVersion("v1", "My first API");
-                                     c.IncludeXmlComments("OwinSwaggerWebAPI.XML");
+                                     c.IncludeXmlComments("OwinSwaggerWebAPI.xml");
                                  })
                   .EnableSwaggerUi(x => x.DisableValidator());
+
+            app.UseWebApi(config);
         }
 
-        private void RegisterAssembliesResolver(HttpConfiguration config)
+        private void RegisterDependencyResolver(HttpConfiguration config)
         {
-            DependencyResolver dependencies = new DependencyResolver(_container);
-            config.Services.Replace(typeof(IAssembliesResolver), dependencies);
+            IDependencyResolver dependencies = new UnityDependencyResolver(_container);
+            //config.Services.Replace(typeof(IDependencyResolver), dependencies);
             config.DependencyResolver = dependencies;
         }
 

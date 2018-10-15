@@ -14,10 +14,13 @@ namespace OwinUnitySwaggerWebAPI
             {
                 HttpClient client = new HttpClient();
 
-                var response = client.GetAsync(baseAddress + "api/values").Result;
+                HttpResponseMessage responseTests = client.GetAsync(baseAddress + "api/Tests").Result;
+                Console.WriteLine(responseTests);
+                Console.WriteLine(responseTests.Content.ReadAsStringAsync().Result);
 
-                Console.WriteLine(response);
-                Console.WriteLine(response.Content.ReadAsStringAsync().Result);
+                HttpResponseMessage responseValues = client.GetAsync(baseAddress + "api/Values").Result;
+                Console.WriteLine(responseValues);
+                Console.WriteLine(responseValues.Content.ReadAsStringAsync().Result);
 
                 Console.ReadLine();
             }
