@@ -1,24 +1,16 @@
 ﻿using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Web.Http;
-using System.Web.Http.Controllers;
 
-namespace OwinUnitySwaggerWebAPI
+namespace OwinUnitySwaggerWebAPI.Controllers
 {
-    public interface ITestsController
-    {
-    }
-
-    public class TestsController : ApiController, ITestsController
+    public class ValuesController : ApiController
     {
         public IEnumerable<string> Get()
         {
             return new List<string>
                    {
-                       "test1",
-                       "test2",
+                       "val1",
+                       "val2",
                    };
         }
 

@@ -21,7 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\OwinUnitySwaggerWebAPI.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\OwinUnitySwaggerWebAPI.xml</DocumentationFile>
     <NoWarn>CS1591</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -134,16 +134,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ControllerTypeResolver.cs" />
-    <Compile Include="FileAssembliesResolver.cs" />
-    <Compile Include="TestsController.cs" />
-    <Compile Include="UnityActionDescriptorFilterProvider.cs" />
-    <Compile Include="DependencyResolver.cs" />
+    <Compile Include="UnityConfig.cs" />
+    <Compile Include="UnityControllerTypeResolver.cs" />
+    <Compile Include="Controllers\TestsController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="UnityProvider.cs" />
-    <Compile Include="ValuesController.cs" />
+    <Compile Include="Controllers\ValuesController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="unity.startup.config">

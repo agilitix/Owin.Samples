@@ -1,22 +1,21 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
 
-namespace OwinUnitySwaggerWebAPI
+namespace OwinUnitySwaggerWebAPI.Controllers
 {
-    public class ValuesController : ApiController
+    public interface ITestsController
+    {
+    }
+
+    public class TestsController : ApiController, ITestsController
     {
         public IEnumerable<string> Get()
         {
             return new List<string>
                    {
-                       "val1",
-                       "val2",
+                       "test1",
+                       "test2",
                    };
-        }
-
-        public string Get(int id)
-        {
-            return "val" + id;
         }
 
         public void Post([FromBody] string value)
