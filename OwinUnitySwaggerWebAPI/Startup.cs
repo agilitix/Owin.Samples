@@ -19,24 +19,6 @@ namespace OwinUnitySwaggerWebAPI
 {
     public class Startup
     {
-        private static IDisposable _webApp;
-
-        static Startup()
-        {
-            UnityConfig.LoadContainer("unity.startup.config");
-        }
-
-        public static void Start(string url)
-        {
-            _webApp = WebApp.Start<Startup>(url);
-        }
-
-        public static void Stop()
-        {
-            _webApp.Dispose();
-            UnityConfig.Dispose();
-        }
-
         public void Configuration(IAppBuilder app)
         {
             HttpConfiguration config = new HttpConfiguration();
@@ -53,14 +35,17 @@ namespace OwinUnitySwaggerWebAPI
                                                      id = RouteParameter.Optional,
                                                  });
 
-            // Setup unity type resolver and dependency resolver.
-            config.Services.Replace(typeof(IHttpControllerTypeResolver), new UnityControllerTypeResolver(UnityConfig.GetContainer()));
-            config.DependencyResolver = new UnityDependencyResolver(UnityConfig.GetContainer());
+            // Controllers type resolver.
+            config.Services.Replace(typeof(IHttpControllerTypeResolver), new ControllerTypeResolver(UnityConfig.GetContainer()));
 
-            // Formatters.
+            // Dependency resolver, hierarchical means one controller instance per-request.
+            config.DependencyResolver = new UnityHierarchicalDependencyResolver(UnityConfig.GetContainer());
+
+            // Pretty format for output.
             ConfigureJsonFormatter(config.Formatters.JsonFormatter);
             ConfigureXmlFormatter(config.Formatters.XmlFormatter);
 
+            // Expose API contracts in Swagger.
             config.EnableSwagger(c =>
                                  {
                                      c.SingleApiVersion("v1", "My first API");
@@ -68,6 +53,7 @@ namespace OwinUnitySwaggerWebAPI
                                  })
                   .EnableSwaggerUi(x => x.DisableValidator());
 
+            // We are using WebAPI.
             app.UseWebApi(config);
         }
 
@@ -79,7 +65,7 @@ namespace OwinUnitySwaggerWebAPI
             }
 
             // Converters.
-            jsonFormatter.SerializerSettings.Converters.Add(new IsoDateTimeConverter {DateTimeFormat = "o"}); // ISO8601
+            jsonFormatter.SerializerSettings.Converters.Add(new IsoDateTimeConverter {DateTimeFormat = "o"}); // ISO8601="2018-10-20T08:55:05.3890640+02:00"
             jsonFormatter.SerializerSettings.Converters.Add(new StringEnumConverter()); // Enum as string.
 
             // Settings.

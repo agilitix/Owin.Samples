@@ -11,7 +11,7 @@ namespace OwinUnitySwaggerWebAPI
         public static void LoadContainer(string containerConfigFile, string containerName = "")
         {
             UnityProvider provider = new UnityProvider(containerConfigFile, containerName);
-            _containers.Add(containerName, provider.Unity);
+            _containers.Add(containerName, provider.Container);
         }
 
         public static IUnityContainer GetContainer(string containerName = "")

@@ -9,12 +9,15 @@ namespace OwinUnitySwaggerWebAPI
             string baseAddress = "http://localhost:5000/";
             // Swagger URL : "http://localhost:5000/swagger/ui/index"
 
-            Startup.Start(baseAddress);
+            Server server = new Server();
+            server.Setup("unity.startup.config");
 
-            Console.Write("Hit enter to exit:");
+            server.Start(baseAddress);
+
+            Console.Write("Press enter to exit:");
             Console.ReadLine();
 
-            Startup.Stop();
+            server.Stop();
         }
     }
 }

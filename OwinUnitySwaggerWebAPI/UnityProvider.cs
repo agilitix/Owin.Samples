@@ -12,7 +12,7 @@ namespace OwinUnitySwaggerWebAPI
         /// <summary>
         /// The container.
         /// </summary>
-        public IUnityContainer Unity { get; }
+        public IUnityContainer Container { get; }
 
         /// <summary>
         /// Create with config file name.
@@ -27,11 +27,12 @@ namespace OwinUnitySwaggerWebAPI
         /// </summary>
         public UnityProvider(string unityConfigFile, string unityContainerName)
         {
-            Unity = new UnityContainer();
             ExeConfigurationFileMap fileMap = new ExeConfigurationFileMap {ExeConfigFilename = unityConfigFile};
             Configuration configuration = ConfigurationManager.OpenMappedExeConfiguration(fileMap, ConfigurationUserLevel.None);
-            UnityConfigurationSection unitySection = (UnityConfigurationSection) configuration.GetSection("unity");
-            Unity.LoadConfiguration(unitySection, unityContainerName);
+
+            Container = new UnityContainer();
+            UnityConfigurationSection unitySection = (UnityConfigurationSection)configuration.GetSection("unity");
+            Container.LoadConfiguration(unitySection, unityContainerName);
         }
     }
 }

@@ -7,11 +7,11 @@ using Unity;
 
 namespace OwinUnitySwaggerWebAPI
 {
-    public class UnityControllerTypeResolver : IHttpControllerTypeResolver
+    public class ControllerTypeResolver : IHttpControllerTypeResolver
     {
         private readonly IUnityContainer _container;
 
-        public UnityControllerTypeResolver(IUnityContainer container)
+        public ControllerTypeResolver(IUnityContainer container)
         {
             _container = container;
         }

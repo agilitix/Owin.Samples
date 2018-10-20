@@ -11,13 +11,10 @@ namespace OwinUnitySwaggerWebAPI
     public class Server
     {
         protected IDisposable _webApp;
-        protected UnityProvider _unityProvider = new UnityProvider();
 
-        public IUnityContainer Container => _unityProvider.Unity;
-
-        public void LoadContainer(string unityConfigFile)
+        public void Setup(string unityConfigFile)
         {
-            _unityProvider.LoadUnityConfiguration(unityConfigFile);
+            UnityConfig.LoadContainer(unityConfigFile);
         }
 
         public void Start(string baseURL)
@@ -28,7 +25,9 @@ namespace OwinUnitySwaggerWebAPI
         public void Stop()
         {
             _webApp?.Dispose();
-            Container.Dispose();
+            _webApp = null;
+
+            UnityConfig.Dispose();
         }
     }
 }

@@ -23,6 +23,7 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\OwinUnitySwaggerWebAPI.xml</DocumentationFile>
     <NoWarn>CS1591</NoWarn>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -134,8 +135,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Server.cs" />
     <Compile Include="UnityConfig.cs" />
-    <Compile Include="UnityControllerTypeResolver.cs" />
+    <Compile Include="ControllerTypeResolver.cs" />
     <Compile Include="Controllers\TestsController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
