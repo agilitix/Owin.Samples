@@ -1,11 +1,9 @@
-﻿using System;
-using System.Net.Http.Formatting;
+﻿using System.Net.Http.Formatting;
 using System.Text;
 using System.Web.Http;
 using System.Web.Http.Dispatcher;
 using System.Xml;
 using Microsoft.Owin;
-using Microsoft.Owin.Hosting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Owin;
@@ -46,11 +44,12 @@ namespace OwinUnitySwaggerWebAPI
             ConfigureJsonFormatter(config.Formatters.JsonFormatter);
             ConfigureXmlFormatter(config.Formatters.XmlFormatter);
 
+            // Some parameters from unity config.
             string apiVersion = UnityConfig.Container.Resolve<string>("ApiVersion");
             string apiTitle = UnityConfig.Container.Resolve<string>("ApiTitle");
             string swaggerXmlComments = UnityConfig.Container.Resolve<string>("SwaggerXmlComments");
 
-            // Expose API contracts in Swagger.
+            // Expose the API methods as Swagger.
             config.EnableSwagger(c =>
                                  {
                                      c.SingleApiVersion(apiVersion, apiTitle);
