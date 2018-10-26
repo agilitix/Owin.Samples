@@ -7,18 +7,20 @@ using System.Threading.Tasks;
 
 namespace OwinUnitySwaggerWebAPI.Client
 {
-    class Program
+    static class Program
     {
         static void Main(string[] args)
         {
+            string baseAddress = "http://localhost:5000/";
+
             using (HttpClient client = new HttpClient())
             {
                 for (int i = 0; i < 1000000; ++i)
                 {
-                    var r1 = client.GetAsync("http://localhost:5000/api/Values/Get").Result;
+                    var r1 = client.GetAsync(baseAddress + "api/Values/Get").Result;
                     Console.WriteLine(r1.Content.ReadAsStringAsync().Result);
 
-                    var r2 = client.GetAsync("http://localhost:5000/api/Tests/Get").Result;
+                    var r2 = client.GetAsync(baseAddress + "api/Tests/Get").Result;
                     Console.WriteLine(r2.Content.ReadAsStringAsync().Result);
                 }
             }

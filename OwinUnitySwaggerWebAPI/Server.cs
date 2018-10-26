@@ -1,20 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Owin.Hosting;
 using Unity;
 
 namespace OwinUnitySwaggerWebAPI
 {
-    public class Server
+    public class Server : IDisposable
     {
         protected IDisposable _webApp;
 
-        public void Setup(string unityConfigFile)
+        public IUnityContainer Container { get; private set; }
+
+        public Server(string unityConfigFile = "unity.config", string unityContainerName = "")
         {
-            UnityConfig.LoadContainer(unityConfigFile);
+            UnityConfig.LoadContainer(unityConfigFile, unityContainerName);
+            Container = UnityConfig.Container;
         }
 
         public void Start(string baseURL)
@@ -22,12 +21,13 @@ namespace OwinUnitySwaggerWebAPI
             _webApp = WebApp.Start<Startup>(baseURL);
         }
 
-        public void Stop()
+        public void Dispose()
         {
             _webApp?.Dispose();
             _webApp = null;
 
-            UnityConfig.Dispose();
+            Container?.Dispose();
+            Container = null;
         }
     }
 }

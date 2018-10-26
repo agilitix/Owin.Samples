@@ -11,6 +11,7 @@ using Newtonsoft.Json.Converters;
 using Owin;
 using Swashbuckle.Application;
 using Unity.AspNet.WebApi;
+using Unity;
 using JsonFormatting = Newtonsoft.Json.Formatting;
 
 [assembly: OwinStartup(typeof(OwinUnitySwaggerWebAPI.Startup))]
@@ -26,7 +27,7 @@ namespace OwinUnitySwaggerWebAPI
             // Attribute-based routing.
             config.MapHttpAttributeRoutes();
 
-            // Convention-based routes.
+            // Convention-based routing.
             config.Routes.MapHttpRoute(name: "DefaultApi",
                                        routeTemplate: "api/{controller}/{action}/{id}",
                                        defaults: new
@@ -36,25 +37,32 @@ namespace OwinUnitySwaggerWebAPI
                                                  });
 
             // Controllers type resolver.
-            config.Services.Replace(typeof(IHttpControllerTypeResolver), new ControllerTypeResolver(UnityConfig.GetContainer()));
+            config.Services.Replace(typeof(IHttpControllerTypeResolver), new ControllerTypeResolver(UnityConfig.Container));
 
             // Dependency resolver, hierarchical means one controller instance per-request.
-            config.DependencyResolver = new UnityHierarchicalDependencyResolver(UnityConfig.GetContainer());
+            config.DependencyResolver = new UnityHierarchicalDependencyResolver(UnityConfig.Container);
 
             // Pretty format for output.
             ConfigureJsonFormatter(config.Formatters.JsonFormatter);
             ConfigureXmlFormatter(config.Formatters.XmlFormatter);
 
+            string apiVersion = UnityConfig.Container.Resolve<string>("ApiVersion");
+            string apiTitle = UnityConfig.Container.Resolve<string>("ApiTitle");
+            string swaggerXmlComments = UnityConfig.Container.Resolve<string>("SwaggerXmlComments");
+
             // Expose API contracts in Swagger.
             config.EnableSwagger(c =>
                                  {
-                                     c.SingleApiVersion("v1", "My first API");
-                                     c.IncludeXmlComments("OwinUnitySwaggerWebAPI.xml");
+                                     c.SingleApiVersion(apiVersion, apiTitle);
+                                     c.IncludeXmlComments(swaggerXmlComments); // See project properties => Build / XML documentation file
                                  })
                   .EnableSwaggerUi(x => x.DisableValidator());
 
             // We are using WebAPI.
             app.UseWebApi(config);
+
+            // Perform final initialization of the config before it is used to process requests.
+            config.EnsureInitialized();
         }
 
         private void ConfigureJsonFormatter(JsonMediaTypeFormatter jsonFormatter)
@@ -65,7 +73,7 @@ namespace OwinUnitySwaggerWebAPI
             }
 
             // Converters.
-            jsonFormatter.SerializerSettings.Converters.Add(new IsoDateTimeConverter {DateTimeFormat = "o"}); // ISO8601="2018-10-20T08:55:05.3890640+02:00"
+            jsonFormatter.SerializerSettings.Converters.Add(new IsoDateTimeConverter {DateTimeFormat = "o"}); // ISO8601="2018-11-20T08:55:05.3890640+02:00"
             jsonFormatter.SerializerSettings.Converters.Add(new StringEnumConverter()); // Enum as string.
 
             // Settings.
