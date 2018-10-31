@@ -11,6 +11,11 @@ using Swashbuckle.Application;
 using Unity.AspNet.WebApi;
 using Unity;
 using JsonFormatting = Newtonsoft.Json.Formatting;
+using Microsoft.Owin.Cors;
+using OwinUnitySwaggerWebAPI.Middlewares;
+using Microsoft.Owin.Logging;
+using System.Reflection;
+using OwinUnitySwaggerWebAPI.Logging;
 
 [assembly: OwinStartup(typeof(OwinUnitySwaggerWebAPI.Startup))]
 
@@ -20,6 +25,10 @@ namespace OwinUnitySwaggerWebAPI
     {
         public void Configuration(IAppBuilder app)
         {
+            // Set logger factory.
+            app.SetLoggerFactory(new Log4NetLoggerFactory(Assembly.GetExecutingAssembly()));
+
+            // Create configuration.
             HttpConfiguration config = new HttpConfiguration();
 
             // Attribute-based routing.
@@ -56,6 +65,12 @@ namespace OwinUnitySwaggerWebAPI
                                      c.IncludeXmlComments(swaggerXmlComments); // See project properties => Build / XML documentation file
                                  })
                   .EnableSwaggerUi(x => x.DisableValidator());
+
+            // Add logging middleware.
+            app.Use<LoggingMiddleware>();
+
+            // Allow cross-origin (cross-domain) resources.
+            app.UseCors(CorsOptions.AllowAll);
 
             // We are using WebAPI.
             app.UseWebApi(config);
