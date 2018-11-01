@@ -1,4 +1,6 @@
-﻿using System.Net.Http.Formatting;
+﻿using System;
+using System.Collections.Generic;
+using System.Net.Http.Formatting;
 using System.Text;
 using System.Web.Http;
 using System.Web.Http.Dispatcher;
@@ -25,8 +27,10 @@ namespace OwinUnitySwaggerWebAPI
     {
         public void Configuration(IAppBuilder app)
         {
-            // Set logger factory.
+            // Set logger factory and log welcome message.
             app.SetLoggerFactory(new Log4NetLoggerFactory(Assembly.GetExecutingAssembly()));
+            ILogger logger = app.CreateLogger<Startup>();
+            logger.WriteInformation("App is starting, building configuration");
 
             // Create configuration.
             HttpConfiguration config = new HttpConfiguration();
@@ -77,6 +81,9 @@ namespace OwinUnitySwaggerWebAPI
 
             // Perform final initialization of the config before it is used to process requests.
             config.EnsureInitialized();
+
+            // Log end of configuration.
+            logger.WriteInformation("App is started, configuration is built");
         }
 
         private void ConfigureJsonFormatter(JsonMediaTypeFormatter jsonFormatter)

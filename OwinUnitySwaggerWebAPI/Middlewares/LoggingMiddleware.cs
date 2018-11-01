@@ -17,6 +17,7 @@ namespace OwinUnitySwaggerWebAPI.Middlewares
         public override async Task Invoke(IOwinContext context)
         {
             // Log before request is processed.
+
             _logger.Info("Received request blabla");
 
             await Next.Invoke(context);

@@ -19,7 +19,7 @@ namespace OwinUnitySwaggerWebAPI.Logging
 
         public static void Configure(string log4netConfig = "log4net.config")
         {
-            if(File.Exists(log4netConfig))
+            if (File.Exists(log4netConfig))
             {
                 // Custom config file.
                 XmlConfigurator.Configure(new FileInfo(log4netConfig));
@@ -33,7 +33,7 @@ namespace OwinUnitySwaggerWebAPI.Logging
 
         public Log4NetLogger(Assembly repositoryAssembly, string name)
         {
-            _logger = (Logger)LoggerManager.GetLogger(repositoryAssembly, name);
+            _logger = (Logger) LoggerManager.GetLogger(repositoryAssembly, name);
         }
 
         public bool WriteCore(TraceEventType eventType, int eventId, object state, Exception exception, Func<object, Exception, string> formatter)
@@ -43,10 +43,11 @@ namespace OwinUnitySwaggerWebAPI.Logging
             bool isEnabled = _logger.IsEnabledFor(level);
             if (state == null)
             {
-                // Calling WriteCore with only TraceEventType to check the IsEnabled level, no log event will be written.
+                // If calling WriteCore with only TraceEventType to check the IsEnabled level (no log event will be written).
                 return isEnabled;
             }
-            else if (!isEnabled)
+
+            if (!isEnabled)
             {
                 return false;
             }
