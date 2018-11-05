@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Web;
 using System.Web.Http;
+using OwinUnitySwaggerWebAPI.Filters;
 
 namespace OwinUnitySwaggerWebAPI.Controllers
 {
     public class ValuesController : ApiController
     {
+        [AuthenticationFilter]
         public IEnumerable<string> Get()
         {
             return new List<string>
