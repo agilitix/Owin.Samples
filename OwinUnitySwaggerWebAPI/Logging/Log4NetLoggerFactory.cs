@@ -1,5 +1,8 @@
-﻿using Microsoft.Owin.Logging;
+﻿using System.IO;
+using Microsoft.Owin.Logging;
 using System.Reflection;
+using System.Threading;
+using log4net.Config;
 
 namespace OwinUnitySwaggerWebAPI.Logging
 {

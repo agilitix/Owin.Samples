@@ -4,6 +4,7 @@ using log4net.Repository.Hierarchy;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Net;
 using System.Reflection;
 
 namespace OwinUnitySwaggerWebAPI.Logging
@@ -11,25 +12,6 @@ namespace OwinUnitySwaggerWebAPI.Logging
     internal class Log4NetLogger : Microsoft.Owin.Logging.ILogger
     {
         private readonly Logger _logger;
-
-        static Log4NetLogger()
-        {
-            Configure();
-        }
-
-        public static void Configure(string log4netConfig = "log4net.config")
-        {
-            if (File.Exists(log4netConfig))
-            {
-                // Custom config file.
-                XmlConfigurator.Configure(new FileInfo(log4netConfig));
-            }
-            else
-            {
-                // Config is read from App.config file.
-                XmlConfigurator.Configure();
-            }
-        }
 
         public Log4NetLogger(Assembly repositoryAssembly, string name)
         {
@@ -43,7 +25,7 @@ namespace OwinUnitySwaggerWebAPI.Logging
             bool isEnabled = _logger.IsEnabledFor(level);
             if (state == null)
             {
-                // If calling WriteCore with only TraceEventType to check the IsEnabled level (no log event will be written).
+                // When calling WriteCore with only TraceEventType to check the IsEnabled level (no log event will be written).
                 return isEnabled;
             }
 
@@ -52,8 +34,26 @@ namespace OwinUnitySwaggerWebAPI.Logging
                 return false;
             }
 
-            _logger.Log(level, formatter(state, exception), exception);
+            if (!HandleFilteredExceptions(level, exception))
+            {
+                _logger.Log(level, formatter(state, exception), exception);
+            }
+
             return true;
+        }
+
+        private bool HandleFilteredExceptions(Level level, Exception exception)
+        {
+            ObjectDisposedException objectDisposedException;
+            if (level == Level.Error
+                && (objectDisposedException = exception as ObjectDisposedException) != null
+                && objectDisposedException.ObjectName == typeof(HttpListener).FullName)
+            {
+                _logger.Log(Level.Warn, "Warning: Exception=" + exception.GetType().FullName + ", ObjectName=" + objectDisposedException.ObjectName, null);
+                return true;
+            }
+
+            return false;
         }
 
         static Level MapEventTypeToLevel(TraceEventType eventType)

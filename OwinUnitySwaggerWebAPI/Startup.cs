@@ -27,7 +27,8 @@ namespace OwinUnitySwaggerWebAPI
     {
         public void Configuration(IAppBuilder app)
         {
-            // Set logger factory and log welcome message.
+            // Set logger factory.
+            Log4NetConfigurator.Configure();
             app.SetLoggerFactory(new Log4NetLoggerFactory(Assembly.GetExecutingAssembly()));
             ILogger logger = app.CreateLogger<Startup>();
             logger.WriteInformation("App is starting, building configuration");
@@ -53,7 +54,7 @@ namespace OwinUnitySwaggerWebAPI
             // Dependency resolver, hierarchical means one controller instance per-request.
             config.DependencyResolver = new UnityHierarchicalDependencyResolver(UnityConfig.Container);
 
-            // Pretty format for output.
+            // Pretty format for api messages.
             ConfigureJsonFormatter(config.Formatters.JsonFormatter);
             ConfigureXmlFormatter(config.Formatters.XmlFormatter);
 

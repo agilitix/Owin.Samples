@@ -7,7 +7,6 @@ namespace OwinUnitySwaggerWebAPI.Controllers
 {
     public class ValuesController : ApiController
     {
-        [AuthenticationFilter]
         public IEnumerable<string> Get()
         {
             return new List<string>
