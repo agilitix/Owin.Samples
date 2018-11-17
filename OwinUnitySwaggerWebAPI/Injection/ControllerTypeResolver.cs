@@ -5,7 +5,7 @@ using System.Web.Http.Controllers;
 using System.Web.Http.Dispatcher;
 using Unity;
 
-namespace OwinUnitySwaggerWebAPI
+namespace OwinUnitySwaggerWebAPI.Injection
 {
     public class ControllerTypeResolver : IHttpControllerTypeResolver
     {

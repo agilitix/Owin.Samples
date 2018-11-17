@@ -148,18 +148,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Filters\AuthenticationFilter.cs" />
+    <Compile Include="Injection\IUnityProvider.cs" />
     <Compile Include="Logging\Log4NetConfigurator.cs" />
     <Compile Include="Logging\Log4NetLogger.cs" />
     <Compile Include="Logging\Log4NetLoggerFactory.cs" />
     <Compile Include="Middlewares\LoggingMiddleware.cs" />
     <Compile Include="Server.cs" />
-    <Compile Include="UnityConfig.cs" />
-    <Compile Include="ControllerTypeResolver.cs" />
+    <Compile Include="Injection\ControllerTypeResolver.cs" />
     <Compile Include="Controllers\TestsController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="UnityProvider.cs" />
+    <Compile Include="Injection\UnityProvider.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
   </ItemGroup>
   <ItemGroup>

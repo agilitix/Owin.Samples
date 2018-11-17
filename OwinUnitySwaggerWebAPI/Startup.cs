@@ -17,6 +17,7 @@ using Microsoft.Owin.Cors;
 using OwinUnitySwaggerWebAPI.Middlewares;
 using Microsoft.Owin.Logging;
 using System.Reflection;
+using OwinUnitySwaggerWebAPI.Injection;
 using OwinUnitySwaggerWebAPI.Logging;
 
 [assembly: OwinStartup(typeof(OwinUnitySwaggerWebAPI.Startup))]
@@ -25,10 +26,11 @@ namespace OwinUnitySwaggerWebAPI
 {
     public class Startup
     {
+        public static IUnityContainer Container { get; set; }
+
         public void Configuration(IAppBuilder app)
         {
             // Set logger factory.
-            Log4NetConfigurator.Configure();
             app.SetLoggerFactory(new Log4NetLoggerFactory(Assembly.GetExecutingAssembly()));
             ILogger logger = app.CreateLogger<Startup>();
             logger.WriteInformation("App is starting, building configuration");
@@ -49,19 +51,19 @@ namespace OwinUnitySwaggerWebAPI
                                                  });
 
             // Controllers type resolver.
-            config.Services.Replace(typeof(IHttpControllerTypeResolver), new ControllerTypeResolver(UnityConfig.Container));
+            config.Services.Replace(typeof(IHttpControllerTypeResolver), new ControllerTypeResolver(Container));
 
             // Dependency resolver, hierarchical means one controller instance per-request.
-            config.DependencyResolver = new UnityHierarchicalDependencyResolver(UnityConfig.Container);
+            config.DependencyResolver = new UnityHierarchicalDependencyResolver(Container);
 
             // Pretty format for api messages.
             ConfigureJsonFormatter(config.Formatters.JsonFormatter);
             ConfigureXmlFormatter(config.Formatters.XmlFormatter);
 
             // Some parameters from unity config.
-            string apiVersion = UnityConfig.Container.Resolve<string>("ApiVersion");
-            string apiTitle = UnityConfig.Container.Resolve<string>("ApiTitle");
-            string swaggerXmlComments = UnityConfig.Container.Resolve<string>("SwaggerXmlComments");
+            string apiVersion = Container.Resolve<string>("ApiVersion");
+            string apiTitle = Container.Resolve<string>("ApiTitle");
+            string swaggerXmlComments = Container.Resolve<string>("SwaggerXmlComments");
 
             // Expose the API methods as Swagger.
             config.EnableSwagger(c =>

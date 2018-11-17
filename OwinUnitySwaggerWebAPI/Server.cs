@@ -1,19 +1,22 @@
 ﻿using System;
 using Microsoft.Owin.Hosting;
+using OwinUnitySwaggerWebAPI.Injection;
+using OwinUnitySwaggerWebAPI.Logging;
 using Unity;
 
 namespace OwinUnitySwaggerWebAPI
 {
     public class Server : IDisposable
     {
+        protected readonly IUnityProvider _unityProvider;
         protected IDisposable _webApp;
 
-        public IUnityContainer Container { get; private set; }
-
-        public Server(string unityConfigFile = "unity.config", string unityContainerName = "")
+        public Server(IUnityProvider unityProvider)
         {
-            UnityConfig.LoadContainer(unityConfigFile, unityContainerName);
-            Container = UnityConfig.Container;
+            Log4NetConfigurator.Configure();
+
+            _unityProvider = unityProvider;
+            Startup.Container = _unityProvider.Container;
         }
 
         public void Start(string baseURL)
@@ -26,8 +29,7 @@ namespace OwinUnitySwaggerWebAPI
             _webApp?.Dispose();
             _webApp = null;
 
-            Container?.Dispose();
-            Container = null;
+            Startup.Container = null;
         }
     }
 }

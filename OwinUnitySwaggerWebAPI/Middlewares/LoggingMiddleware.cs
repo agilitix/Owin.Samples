@@ -17,12 +17,12 @@ namespace OwinUnitySwaggerWebAPI.Middlewares
         public override async Task Invoke(IOwinContext context)
         {
             // Log before request is processed.
-
-            _logger.Info("Received request blabla");
+            _logger.Info("Before request");
 
             await Next.Invoke(context);
 
             // Log after request has been processed.
+            _logger.Info("After request");
         }
     }
 }

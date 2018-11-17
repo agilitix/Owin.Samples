@@ -1,4 +1,5 @@
 ﻿using System;
+using OwinUnitySwaggerWebAPI.Injection;
 
 namespace OwinUnitySwaggerWebAPI
 {
@@ -9,7 +10,8 @@ namespace OwinUnitySwaggerWebAPI
             string baseAddress = "http://localhost:5000/";
             string swaggerURL = baseAddress + "swagger/ui/index";
 
-            using (Server server = new Server())
+            using(IUnityProvider unity = new UnityProvider())
+            using (Server server = new Server(unity))
             {
                 server.Start(baseAddress);
 
