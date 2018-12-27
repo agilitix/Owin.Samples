@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OwinUnitySwaggerWebAPI.Initialization
+namespace OwinUnitySwaggerWebAPI.Common.Initialization
 {
     public class OneTimeStartupAttribute : Attribute
     {
