@@ -1,12 +1,22 @@
 ﻿using System.Collections.Generic;
 using System.Web;
 using System.Web.Http;
-using OwinUnitySwaggerWebAPI.Filters;
+using OwinUnitySwaggerWebAPI.Initialization;
 
 namespace OwinUnitySwaggerWebAPI.Controllers
 {
     public class ValuesController : ApiController
     {
+        [OneTimeStartup]
+        public static void Startup()
+        {
+        }
+
+        [OneTimeShutdown]
+        public static void Shutdown()
+        {
+        }
+
         public IEnumerable<string> Get()
         {
             return new List<string>

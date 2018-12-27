@@ -1,35 +1,42 @@
 ﻿using System;
+using System.Threading;
+using System.Web.Http.Controllers;
 using Microsoft.Owin.Hosting;
+using OwinUnitySwaggerWebAPI.Initialization;
 using OwinUnitySwaggerWebAPI.Injection;
 using OwinUnitySwaggerWebAPI.Logging;
 using Unity;
 
 namespace OwinUnitySwaggerWebAPI
 {
-    public class Server : IDisposable
+    public class Server : IServer
     {
-        protected readonly IUnityProvider _unityProvider;
         protected IDisposable _webApp;
+        protected IControllerInitializer _initializer;
 
         public Server(IUnityProvider unityProvider)
         {
-            Log4NetConfigurator.Configure();
+            Startup.Unity = unityProvider;
 
-            _unityProvider = unityProvider;
-            Startup.Container = _unityProvider.Container;
+            IRegisteredControllers registeredControllers = new RegisteredControllers(unityProvider.Container);
+            _initializer = new ControllerInitializer(unityProvider.Container, registeredControllers);
         }
 
-        public void Start(string baseURL)
+        public void Start(string baseUrl)
         {
-            _webApp = WebApp.Start<Startup>(baseURL);
+            Log4NetConfigurator.Configure();
+
+            _initializer.OneTimeStartup();
+            _webApp = WebApp.Start<Startup>(baseUrl);
         }
 
         public void Dispose()
         {
-            _webApp?.Dispose();
-            _webApp = null;
+            IControllerInitializer init = Interlocked.Exchange(ref _initializer, null);
+            init?.OneTimeShutdown();
 
-            Startup.Container = null;
+            IDisposable webApp = Interlocked.Exchange(ref _webApp, null);
+            webApp?.Dispose();
         }
     }
 }

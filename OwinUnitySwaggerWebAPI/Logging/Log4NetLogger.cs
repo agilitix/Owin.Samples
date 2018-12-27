@@ -25,7 +25,7 @@ namespace OwinUnitySwaggerWebAPI.Logging
             bool isEnabled = _logger.IsEnabledFor(level);
             if (state == null)
             {
-                // When calling WriteCore with only TraceEventType to check the IsEnabled level (no log event will be written).
+                // WriteCore is called with only TraceEventType to check the IsEnabled level (no log event will be written).
                 return isEnabled;
             }
 

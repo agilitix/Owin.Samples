@@ -9,33 +9,16 @@ namespace OwinUnitySwaggerWebAPI.Injection
 {
     public class ControllerTypeResolver : IHttpControllerTypeResolver
     {
-        private readonly IUnityContainer _container;
+        private readonly IRegisteredControllers _registeredControllers;
 
-        public ControllerTypeResolver(IUnityContainer container)
+        public ControllerTypeResolver(IRegisteredControllers registeredControllers)
         {
-            _container = container;
+            _registeredControllers = registeredControllers;
         }
 
         public ICollection<Type> GetControllerTypes(IAssembliesResolver assembliesResolver)
         {
-            IList<Type> registeredControllers = _container.Registrations
-                                                          .Where(x => IsControllerType(x.MappedToType))
-                                                          .Select(x => x.MappedToType)
-                                                          .ToList();
-            return registeredControllers;
-        }
-
-        protected bool IsControllerType(Type type)
-        {
-            if (type == null)
-            {
-                return false;
-            }
-
-            return type.IsClass
-                   && type.IsVisible
-                   && !type.IsAbstract
-                   && typeof(IHttpController).IsAssignableFrom(type);
+            return _registeredControllers.GetControllers() as ICollection<Type>;
         }
     }
 }
