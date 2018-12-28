@@ -35,6 +35,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ExpressMapper, Version=1.9.1.0, Culture=neutral, PublicKeyToken=ac363faa09311ba0, processorArchitecture=MSIL">
+      <HintPath>packages\Expressmapper.1.9.1\lib\net45\ExpressMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
@@ -154,6 +158,8 @@
     <Compile Include="Logging\Log4NetLogger.cs" />
     <Compile Include="Logging\Log4NetLoggerFactory.cs" />
     <Compile Include="Middlewares\LoggingMiddleware.cs" />
+    <Compile Include="Middlewares\RequestInfoLog.cs" />
+    <Compile Include="Middlewares\ResponseInfoLog.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="Injection\ControllerTypeResolver.cs" />
     <Compile Include="Program.cs" />
@@ -165,7 +171,9 @@
     <None Include="log4net.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="unity.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
