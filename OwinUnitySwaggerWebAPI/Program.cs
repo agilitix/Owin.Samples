@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Globalization;
+using System.Net;
 using System.Threading;
 using OwinUnitySwaggerWebAPI.Injection;
 
@@ -11,17 +10,17 @@ namespace OwinUnitySwaggerWebAPI
     {
         static Program()
         {
-            var culture = new CultureInfo("en-US");
-            //Thread.CurrentThread.CurrentCulture.GetType().GetProperty("DefaultThreadCurrentCulture")?.SetValue(Thread.CurrentThread.CurrentCulture, culture, null);
-            //Thread.CurrentThread.CurrentCulture.GetType().GetProperty("DefaultThreadCurrentUICulture")?.SetValue(Thread.CurrentThread.CurrentCulture, culture, null);
-            CultureInfo.DefaultThreadCurrentCulture = culture;
-            CultureInfo.DefaultThreadCurrentUICulture = culture;
+            var culture_en_US = new CultureInfo("en-US");
+            Thread.CurrentThread.CurrentCulture = culture_en_US;
+            Thread.CurrentThread.CurrentUICulture = culture_en_US;
+            CultureInfo.DefaultThreadCurrentCulture = culture_en_US;
+            CultureInfo.DefaultThreadCurrentUICulture = culture_en_US;
         }
 
         static void Main(string[] args)
         {
-            string baseAddress = "http://localhost:5500/";
-            string swaggerURL = baseAddress + "swagger/ui/index";
+            string baseAddress = "http://+:5500/";
+            string swaggerURL = baseAddress.Replace("+", Dns.GetHostName()) + "swagger/ui/index";
 
             using(IUnityProvider unity = new UnityProvider())
             using (IServer server = new Server(unity))
@@ -29,7 +28,7 @@ namespace OwinUnitySwaggerWebAPI
                 server.Start(baseAddress);
 
                 Console.WriteLine();
-                Console.WriteLine("Swagger URL=" + swaggerURL);
+                Console.WriteLine("Swagger URL: " + swaggerURL);
 
                 Console.WriteLine();
                 Console.Write("Press enter to exit:");

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net.Http.Formatting;
 using System.Text;
 using System.Web.Http;
@@ -17,7 +16,6 @@ using Microsoft.Owin.Cors;
 using OwinUnitySwaggerWebAPI.Middlewares;
 using Microsoft.Owin.Logging;
 using System.Reflection;
-using System.Web.Http.Controllers;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
 using OwinUnitySwaggerWebAPI.Hub;

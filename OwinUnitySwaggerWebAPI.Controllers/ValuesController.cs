@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Web;
 using System.Web.Http;
 using OwinUnitySwaggerWebAPI.Common.Controllers;
 using OwinUnitySwaggerWebAPI.Common.Initialization;

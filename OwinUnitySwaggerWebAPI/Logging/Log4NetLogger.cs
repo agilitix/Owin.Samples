@@ -1,9 +1,7 @@
-﻿using log4net.Config;
-using log4net.Core;
+﻿using log4net.Core;
 using log4net.Repository.Hierarchy;
 using System;
 using System.Diagnostics;
-using System.IO;
 using System.Net;
 using System.Reflection;
 

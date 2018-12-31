@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.AspNet.SignalR.Hubs;
 using Unity;
-using Unity.Lifetime;
 
 namespace OwinUnitySwaggerWebAPI.Hub
 {

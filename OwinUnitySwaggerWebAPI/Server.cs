@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Threading;
-using System.Web.Http.Controllers;
 using Microsoft.Owin.Hosting;
 using OwinUnitySwaggerWebAPI.Initialization;
 using OwinUnitySwaggerWebAPI.Injection;
 using OwinUnitySwaggerWebAPI.Logging;
-using Unity;
 
 namespace OwinUnitySwaggerWebAPI
 {
@@ -27,6 +25,8 @@ namespace OwinUnitySwaggerWebAPI
             Log4NetConfigurator.Configure();
 
             _initializer.OneTimeStartup();
+
+            // If you got "access denied" exception run in elevated mode or allow the port for the app.
             _webApp = WebApp.Start<Startup>(baseUrl);
         }
 
