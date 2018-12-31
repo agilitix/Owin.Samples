@@ -2,7 +2,7 @@
 using Microsoft.AspNet.SignalR.Hubs;
 using Unity;
 
-namespace OwinUnitySwaggerWebAPI.Hub
+namespace OwinUnitySwaggerWebAPI.Hubs
 {
     internal class HubActivator : IHubActivator
     {

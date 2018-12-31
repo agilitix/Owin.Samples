@@ -1,4 +1,8 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using log4net;
+using log4net.Appender;
 using log4net.Config;
 
 namespace OwinUnitySwaggerWebAPI.Logging
@@ -17,6 +21,18 @@ namespace OwinUnitySwaggerWebAPI.Logging
                 // Read log4net config from App.config file.
                 XmlConfigurator.Configure();
             }
+        }
+
+        public static string LogFileAppenders()
+        {
+            IEnumerable<FileAppender> fileAppenders = LogManager.GetRepository()
+                                                                .GetAppenders()
+                                                                .OfType<FileAppender>();
+
+            string files = string.Join(", ",
+                                       fileAppenders.Where(x => !string.IsNullOrWhiteSpace(x.File))
+                                                    .Select(x => "\"" + x.File + "\""));
+            return files;
         }
     }
 }

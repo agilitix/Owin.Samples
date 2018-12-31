@@ -18,7 +18,7 @@ using Microsoft.Owin.Logging;
 using System.Reflection;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
-using OwinUnitySwaggerWebAPI.Hub;
+using OwinUnitySwaggerWebAPI.Hubs;
 using OwinUnitySwaggerWebAPI.Injection;
 using OwinUnitySwaggerWebAPI.Logging;
 

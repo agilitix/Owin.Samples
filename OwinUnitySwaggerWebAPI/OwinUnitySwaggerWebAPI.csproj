@@ -143,8 +143,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Hub\HubActivator.cs" />
-    <Compile Include="Hub\HubDescriptorProvider.cs" />
+    <Compile Include="Hubs\HubActivator.cs" />
+    <Compile Include="Hubs\HubDescriptorProvider.cs" />
     <Compile Include="Initialization\ControllerInitializer.cs" />
     <Compile Include="Initialization\IControllerInitializer.cs" />
     <Compile Include="Injection\RegisteredHubs.cs" />

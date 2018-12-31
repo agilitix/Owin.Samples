@@ -19,7 +19,7 @@ namespace OwinUnitySwaggerWebAPI
 
         static void Main(string[] args)
         {
-            string baseAddress = "http://+:5500/";
+            string baseAddress = "http://localhost:5500/";
             string swaggerURL = baseAddress.Replace("+", Dns.GetHostName()) + "swagger/ui/index";
 
             using(IUnityProvider unity = new UnityProvider())

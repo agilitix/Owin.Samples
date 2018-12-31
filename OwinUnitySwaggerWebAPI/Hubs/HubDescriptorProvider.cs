@@ -4,7 +4,7 @@ using System.Linq;
 using Microsoft.AspNet.SignalR.Hubs;
 using OwinUnitySwaggerWebAPI.Injection;
 
-namespace OwinUnitySwaggerWebAPI.Hub
+namespace OwinUnitySwaggerWebAPI.Hubs
 {
     internal class HubDescriptorProvider : IHubDescriptorProvider
     {
@@ -66,7 +66,7 @@ namespace OwinUnitySwaggerWebAPI.Hub
 
         private string GetHubTypeName(Type type)
         {
-            int index = type.Name.IndexOf('`'); // Extract only generic name for generic CLR types.
+            int index = type.Name.IndexOf('`'); // Extract only the generic name for generic CLR types.
             return index >= 0
                        ? type.Name.Substring(0, index)
                        : type.Name;
