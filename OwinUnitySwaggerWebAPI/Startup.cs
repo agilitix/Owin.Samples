@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Net.Http.Formatting;
 using System.Text;
 using System.Web.Http;
@@ -81,17 +82,23 @@ namespace OwinUnitySwaggerWebAPI
                 apiTitle = Unity.Container.Resolve<string>("ApiTitle");
             }
 
-            string swaggerXmlComments = Assembly.GetEntryAssembly().GetName().Name + ".xml";
+            string swaggerXmlComments = Assembly.GetExecutingAssembly().GetName().Name + ".xml";
             if (Unity.Container.IsRegistered<string>("SwaggerXmlComments"))
             {
+                // If overridden in unity config.
                 swaggerXmlComments = Unity.Container.Resolve<string>("SwaggerXmlComments");
+            }
+
+            if (!File.Exists(swaggerXmlComments))
+            {
+                throw new FileNotFoundException("The 'XML documentation file' does not exist, please check your project property '" + Assembly.GetExecutingAssembly().GetName().Name + "/Properties/Build/XML documentation file'", swaggerXmlComments);
             }
 
             // Expose the API methods as Swagger.
             config.EnableSwagger(c =>
                                  {
                                      c.SingleApiVersion(apiVersion, apiTitle);
-                                     c.IncludeXmlComments(swaggerXmlComments); // See project properties => Build / XML documentation file
+                                     c.IncludeXmlComments(swaggerXmlComments); // See project "properties / Build / XML documentation file"
                                  })
                   .EnableSwaggerUi(x => x.DisableValidator());
 

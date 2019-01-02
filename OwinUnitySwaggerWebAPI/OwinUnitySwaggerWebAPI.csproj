@@ -21,7 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\OwinUnitySwaggerWebAPI.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\OwinUnitySwaggerWebAPI.XML</DocumentationFile>
     <NoWarn>CS1591</NoWarn>
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>

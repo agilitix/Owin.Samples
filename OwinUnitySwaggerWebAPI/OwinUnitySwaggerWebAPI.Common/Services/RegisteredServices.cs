@@ -25,15 +25,15 @@ namespace OwinUnitySwaggerWebAPI.Common.Services
                        : _container.Resolve<T>(serviceName);
         }
 
-        public bool TryResolve<T>(out T resolved, string serviceName = "")
+        public bool TryResolve<T>(out T resolvedService, string serviceName = "")
         {
             if (IsRegistered<T>(serviceName))
             {
-                resolved = Resolve<T>(serviceName);
+                resolvedService = Resolve<T>(serviceName);
                 return true;
             }
 
-            resolved = default(T);
+            resolvedService = default(T);
             return false;
         }
     }

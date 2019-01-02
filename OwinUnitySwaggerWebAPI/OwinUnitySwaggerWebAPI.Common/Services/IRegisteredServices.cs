@@ -4,6 +4,6 @@
     {
         bool IsRegistered<T>(string serviceName = "");
         T Resolve<T>(string serviceName = "");
-        bool TryResolve<T>(out T resolved, string serviceName = "");
+        bool TryResolve<T>(out T resolvedService, string serviceName = "");
     }
 }
