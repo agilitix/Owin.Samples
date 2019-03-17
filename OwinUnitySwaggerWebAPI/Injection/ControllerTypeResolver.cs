@@ -7,16 +7,16 @@ namespace OwinUnitySwaggerWebAPI.Injection
 {
     public class ControllerTypeResolver : IHttpControllerTypeResolver
     {
-        private readonly ITypeProvider<IHttpController> _registeredControllers;
+        private readonly ITypeProvider<IHttpController> _controllersProvider;
 
-        public ControllerTypeResolver(ITypeProvider<IHttpController> registeredControllers)
+        public ControllerTypeResolver(ITypeProvider<IHttpController> controllersProvider)
         {
-            _registeredControllers = registeredControllers;
+            _controllersProvider = controllersProvider;
         }
 
         public ICollection<Type> GetControllerTypes(IAssembliesResolver assembliesResolver)
         {
-            return _registeredControllers.GetTypes() as ICollection<Type>;
+            return _controllersProvider.GetTypes() as ICollection<Type>;
         }
     }
 }
