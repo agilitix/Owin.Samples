@@ -147,15 +147,9 @@
     <Compile Include="Hubs\HubDescriptorProvider.cs" />
     <Compile Include="Initialization\ControllerInitializer.cs" />
     <Compile Include="Initialization\IControllerInitializer.cs" />
-    <Compile Include="Injection\RegisteredHubs.cs" />
-    <Compile Include="Injection\RegisteredControllers.cs" />
-    <Compile Include="Injection\IRegisteredHubs.cs" />
-    <Compile Include="Injection\IRegisteredMiddlewares.cs" />
-    <Compile Include="Injection\IRegisteredControllers.cs" />
-    <Compile Include="Injection\IRegisteredTypesSelector.cs" />
+    <Compile Include="Injection\ITypeProvider.cs" />
     <Compile Include="Injection\IUnityProvider.cs" />
-    <Compile Include="Injection\RegisteredMiddlewares.cs" />
-    <Compile Include="Injection\RegisteredTypesSelector.cs" />
+    <Compile Include="Injection\UnityTypeProvider.cs" />
     <Compile Include="IServer.cs" />
     <Compile Include="Logging\Log4NetConfigurator.cs" />
     <Compile Include="Logging\Log4NetLogger.cs" />

@@ -17,6 +17,7 @@ using Microsoft.Owin.Cors;
 using OwinUnitySwaggerWebAPI.Middlewares;
 using Microsoft.Owin.Logging;
 using System.Reflection;
+using System.Web.Http.Controllers;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
 using OwinUnitySwaggerWebAPI.Hubs;
@@ -58,7 +59,7 @@ namespace OwinUnitySwaggerWebAPI
                                                  });
 
             // Controllers type resolver.
-            IRegisteredControllers registeredControllers = new RegisteredControllers(Unity.Container);
+            ITypeProvider<IHttpController> registeredControllers = new UnityTypeProvider<IHttpController>(Unity.Container);
             config.Services.Replace(typeof(IHttpControllerTypeResolver), new ControllerTypeResolver(registeredControllers));
 
             // Dependency resolver, hierarchical means one controller instance per-request.
@@ -103,7 +104,7 @@ namespace OwinUnitySwaggerWebAPI
                   .EnableSwaggerUi(x => x.DisableValidator());
 
             // Informations provider about available hubs.
-            IRegisteredHubs registeredHubs = new RegisteredHubs(Unity.Container);
+            ITypeProvider<IHub> registeredHubs = new UnityTypeProvider<IHub>(Unity.Container);
             GlobalHost.DependencyResolver.Register(typeof(IHubDescriptorProvider), () => new HubDescriptorProvider(registeredHubs));
 
             // Hub creator.
@@ -113,8 +114,8 @@ namespace OwinUnitySwaggerWebAPI
             app.Use<LoggingMiddleware>();
 
             // Add other middlewares.
-            IRegisteredMiddlewares middlewares = new RegisteredMiddlewares(Unity.Container);
-            foreach (Type middleware in middlewares.GetMiddlewares())
+            ITypeProvider<OwinMiddleware> middlewares = new UnityTypeProvider<OwinMiddleware>(Unity.Container);
+            foreach (Type middleware in middlewares.GetTypes())
             {
                 app.Use(middleware);
             }

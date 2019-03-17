@@ -39,7 +39,8 @@ namespace OwinUnitySwaggerWebAPI.Injection
             UnityConfigurationSection unitySection = (UnityConfigurationSection) configuration.GetSection("unity");
             container.LoadConfiguration(unitySection, unityContainerName);
 
-            Type[] unityProviders = container.Registrations.Where(x => typeof(IUnityProvider).IsAssignableFrom(x.MappedToType))
+            Type[] unityProviders = container.Registrations
+                                             .Where(x => typeof(IUnityProvider).IsAssignableFrom(x.MappedToType))
                                              .Select(x => x.MappedToType)
                                              .ToArray();
             if (unityProviders.Length > 0)

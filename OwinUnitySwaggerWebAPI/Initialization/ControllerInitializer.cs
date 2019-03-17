@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Web.Http.Controllers;
 using OwinUnitySwaggerWebAPI.Common.Initialization;
 using OwinUnitySwaggerWebAPI.Injection;
 using Unity;
@@ -11,12 +12,12 @@ namespace OwinUnitySwaggerWebAPI.Initialization
     public class ControllerInitializer : IControllerInitializer
     {
         protected readonly IUnityContainer _container;
-        protected readonly IRegisteredControllers RegisteredControllers;
+        protected readonly ITypeProvider<IHttpController> _controllersProvider;
 
-        public ControllerInitializer(IUnityContainer container, IRegisteredControllers registeredControllers)
+        public ControllerInitializer(IUnityContainer container, ITypeProvider<IHttpController> controllersProvider)
         {
             _container = container;
-            RegisteredControllers = registeredControllers;
+            _controllersProvider = controllersProvider;
         }
 
         public void OneTimeStartup()
@@ -31,7 +32,7 @@ namespace OwinUnitySwaggerWebAPI.Initialization
 
         private void Invoke<T>() where T : Attribute
         {
-            IEnumerable<MethodInfo> methods = RegisteredControllers.GetControllers()
+            IEnumerable<MethodInfo> methods = _controllersProvider.GetTypes()
                                                                    .SelectMany(t => t.GetMethods(BindingFlags.Static | BindingFlags.Public)
                                                                                      .Where(x => x.GetCustomAttributes()
                                                                                                   .OfType<T>()

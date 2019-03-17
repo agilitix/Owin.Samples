@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 namespace OwinUnitySwaggerWebAPI.Injection
 {
-    public interface IRegisteredHubs
+    public interface ITypeProvider<T> where T : class
     {
-        IEnumerable<Type> GetHubs();
+        IEnumerable<Type> GetTypes();
     }
 }

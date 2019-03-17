@@ -8,10 +8,10 @@ namespace OwinUnitySwaggerWebAPI.Hubs
 {
     internal class HubDescriptorProvider : IHubDescriptorProvider
     {
-        private readonly IRegisteredHubs _registeredHubs;
+        private readonly ITypeProvider<IHub> _registeredHubs;
         private readonly IDictionary<string, HubDescriptor> _hubsDescriptorCache;
 
-        public HubDescriptorProvider(IRegisteredHubs registeredHubs)
+        public HubDescriptorProvider(ITypeProvider<IHub> registeredHubs)
         {
             _registeredHubs = registeredHubs;
             _hubsDescriptorCache = CreateCache();
@@ -29,7 +29,7 @@ namespace OwinUnitySwaggerWebAPI.Hubs
 
         protected IDictionary<string, HubDescriptor> CreateCache()
         {
-            IEnumerable<Type> hubs = _registeredHubs.GetHubs();
+            IEnumerable<Type> hubs = _registeredHubs.GetTypes();
             IEnumerable<HubDescriptor> hubDescriptors = hubs.Select(x => new HubDescriptor
                                                                          {
                                                                              NameSpecified = GetHubAttributeName(x) != null,

@@ -4,6 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Security.Principal;
 using System.Threading;
+using System.Web.Http.Controllers;
 using log4net;
 using Microsoft.Owin.Hosting;
 using Microsoft.Owin.Logging;
@@ -22,7 +23,7 @@ namespace OwinUnitySwaggerWebAPI
         {
             Startup.Unity = unityProvider;
 
-            IRegisteredControllers registeredControllers = new RegisteredControllers(unityProvider.Container);
+            ITypeProvider<IHttpController> registeredControllers = new UnityTypeProvider<IHttpController>(unityProvider.Container);
             _initializer = new ControllerInitializer(unityProvider.Container, registeredControllers);
         }
 

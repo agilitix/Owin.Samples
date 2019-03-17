@@ -5,11 +5,11 @@ using Unity;
 
 namespace OwinUnitySwaggerWebAPI.Injection
 {
-    internal class RegisteredTypesSelector<T> : IRegisteredTypesSelector<T> where T : class
+    internal class UnityTypeProvider<T> : ITypeProvider<T> where T : class
     {
         private readonly IUnityContainer _container;
 
-        public RegisteredTypesSelector(IUnityContainer container)
+        public UnityTypeProvider(IUnityContainer container)
         {
             _container = container;
         }
@@ -17,13 +17,13 @@ namespace OwinUnitySwaggerWebAPI.Injection
         public IEnumerable<Type> GetTypes()
         {
             IList<Type> registeredTypes = _container.Registrations
-                                                    .Where(x => IsTypeOf(x.MappedToType))
+                                                    .Where(x => IsExpectedType(x.MappedToType))
                                                     .Select(x => x.MappedToType)
                                                     .ToList();
             return registeredTypes;
         }
 
-        protected bool IsTypeOf(Type type)
+        protected bool IsExpectedType(Type type)
         {
             if (type == null)
             {
