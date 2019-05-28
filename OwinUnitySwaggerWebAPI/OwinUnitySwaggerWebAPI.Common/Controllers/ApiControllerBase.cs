@@ -1,6 +1,6 @@
 ﻿using System.Web.Http;
 using OwinUnitySwaggerWebAPI.Common.Services;
-using Unity.Attributes;
+using Unity;
 
 namespace OwinUnitySwaggerWebAPI.Common.Controllers
 {
