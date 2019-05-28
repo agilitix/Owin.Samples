@@ -5,7 +5,6 @@ using System.Reflection;
 using System.Security.Principal;
 using System.Threading;
 using System.Web.Http.Controllers;
-using log4net;
 using Microsoft.Owin.Hosting;
 using Microsoft.Owin.Logging;
 using OwinUnitySwaggerWebAPI.Initialization;
@@ -23,8 +22,8 @@ namespace OwinUnitySwaggerWebAPI
         {
             Startup.Unity = unityProvider;
 
-            ITypeProvider<IHttpController> registeredControllers = new UnityTypeProvider<IHttpController>(unityProvider.Container);
-            _initializer = new ControllerInitializer(unityProvider.Container, registeredControllers);
+            ITypeProvider<IHttpController> controllersProvider = new UnityTypeProvider<IHttpController>(unityProvider.Container);
+            _initializer = new ControllerInitializer(unityProvider.Container, controllersProvider);
         }
 
         public void Start(string baseUrl)
@@ -56,7 +55,7 @@ namespace OwinUnitySwaggerWebAPI
 
             logger.WriteInformation("---------------------------------------------------------------------------");
             logger.WriteInformation("             Process PID: " + Process.GetCurrentProcess().Id);
-            logger.WriteInformation("          Entry assembly: " + Assembly.GetEntryAssembly().GetName());
+            logger.WriteInformation("          Entry assembly: " + Assembly.GetEntryAssembly()?.GetName());
             logger.WriteInformation("      Executing assembly: " + Assembly.GetExecutingAssembly().GetName());
             logger.WriteInformation("Environment command line: " + Environment.CommandLine);
             logger.WriteInformation("      Application folder: " + Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath));

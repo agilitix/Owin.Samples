@@ -33,10 +33,10 @@ namespace OwinUnitySwaggerWebAPI.Initialization
         private void Invoke<T>() where T : Attribute
         {
             IEnumerable<MethodInfo> methods = _controllersProvider.GetTypes()
-                                                                   .SelectMany(t => t.GetMethods(BindingFlags.Static | BindingFlags.Public)
-                                                                                     .Where(x => x.GetCustomAttributes()
-                                                                                                  .OfType<T>()
-                                                                                                  .Any()));
+                                                                  .SelectMany(t => t.GetMethods(BindingFlags.Static | BindingFlags.Public)
+                                                                                    .Where(x => x.GetCustomAttributes()
+                                                                                                 .OfType<T>()
+                                                                                                 .Any()));
             foreach (MethodInfo method in methods)
             {
                 object[] parameters = ResolveParameters(method);
