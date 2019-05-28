@@ -18,9 +18,6 @@ using OwinUnitySwaggerWebAPI.Middlewares;
 using Microsoft.Owin.Logging;
 using System.Reflection;
 using System.Web.Http.Controllers;
-using Microsoft.AspNet.SignalR;
-using Microsoft.AspNet.SignalR.Hubs;
-using OwinUnitySwaggerWebAPI.Hubs;
 using OwinUnitySwaggerWebAPI.Injection;
 using OwinUnitySwaggerWebAPI.Logging;
 
@@ -103,13 +100,6 @@ namespace OwinUnitySwaggerWebAPI
                                  })
                   .EnableSwaggerUi(x => x.DisableValidator());
 
-            // Informations provider about available hubs.
-            ITypeProvider<IHub> registeredHubs = new UnityTypeProvider<IHub>(Unity.Container);
-            GlobalHost.DependencyResolver.Register(typeof(IHubDescriptorProvider), () => new HubDescriptorProvider(registeredHubs));
-
-            // Hub creator.
-            GlobalHost.DependencyResolver.Register(typeof(IHubActivator), () => new HubActivator(Unity.Container));
-
             // Add logging middleware.
             app.Use<LoggingMiddleware>();
 
@@ -122,9 +112,6 @@ namespace OwinUnitySwaggerWebAPI
 
             // Allow cross-origin (cross-domain) resources.
             app.UseCors(CorsOptions.AllowAll);
-
-            // Maps SignalR hubs to the app builder pipeline at "/signalr".
-            app.MapSignalR();
 
             // We are using WebAPI.
             app.UseWebApi(config);
