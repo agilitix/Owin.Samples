@@ -10,11 +10,10 @@ namespace OwinUnitySwaggerWebAPI
     {
         static Program()
         {
-            CultureInfo culture_en_US = CultureInfo.GetCultureInfo("en-US");
-            Thread.CurrentThread.CurrentCulture = culture_en_US;
-            Thread.CurrentThread.CurrentUICulture = culture_en_US;
-            CultureInfo.DefaultThreadCurrentCulture = culture_en_US;
-            CultureInfo.DefaultThreadCurrentUICulture = culture_en_US;
+            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.InvariantCulture;
+            CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
+            CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InvariantCulture;
         }
 
         static void Main(string[] args)
