@@ -18,6 +18,10 @@ namespace OwinUnitySwaggerWebAPI
 
         static void Main(string[] args)
         {
+            // Add/delete user acl for the url and port:
+            // netsh http add urlacl url=http://localhost:5500/ user=DOMAIN\user
+            // netsh http delete urlacl url=http://localhost:5500/
+
             string baseAddress = "http://localhost:5500/";
             string swaggerURL = baseAddress.Replace("+", Dns.GetHostName()) + "swagger/ui/index";
 
