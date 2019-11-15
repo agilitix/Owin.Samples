@@ -135,8 +135,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\UnityConfig.cs" />
-    <Compile Include="App_Start\UnityWebApiActivator.cs" />
     <Compile Include="Initialization\ControllerInitializer.cs" />
     <Compile Include="Initialization\IControllerInitializer.cs" />
     <Compile Include="Injection\ITypeProvider.cs" />
